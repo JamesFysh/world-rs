@@ -204,6 +204,10 @@ def main():
     write_wav(FIXTURES_DIR / "sine_200.wav", generate_sine(200, 2.0))
     write_wav(FIXTURES_DIR / "sine_500.wav", generate_sine(500, 2.0))
     write_wav(FIXTURES_DIR / "sine_800.wav", generate_sine(800, 2.0))
+    # Ceiling-boundary canaries (see docs/world-divergences.md): 790 Hz must
+    # stay fully voiced on both sides; 801 Hz must stay fully unvoiced.
+    write_wav(FIXTURES_DIR / "sine_790.wav", generate_sine(790, 2.0))
+    write_wav(FIXTURES_DIR / "sine_801.wav", generate_sine(801, 2.0))
 
     write_wav(FIXTURES_DIR / "chirp_71_800.wav", generate_chirp(71, 800, 2.0))
     write_wav(FIXTURES_DIR / "silence.wav", generate_silence(2.0))
