@@ -28,7 +28,7 @@ const TEST_NAMES: &[&str] = &[
 ];
 
 fn vectors_dir() -> PathBuf {
-    manifest_dir().join("../../test-vector-data/vectors/synthesis")
+    manifest_dir().join("../test-vector-data/vectors/synthesis")
 }
 
 fn read_f64s(bytes: &[u8]) -> Vec<f64> {

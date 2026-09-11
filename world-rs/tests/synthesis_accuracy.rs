@@ -51,7 +51,7 @@ const KEY_SAMPLE_REL_TOL: f64 = 1e-6;
 
 /// Root of the committed reference vectors (workspace `test-vector-data/`).
 fn vectors_dir() -> PathBuf {
-    manifest_dir().join("../../test-vector-data/vectors/synthesis")
+    manifest_dir().join("../test-vector-data/vectors/synthesis")
 }
 
 /// A reference case: the synthesis inputs (F0 contour, spectral envelope,

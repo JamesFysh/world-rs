@@ -18,7 +18,7 @@ const TEST_NAMES: &[&str] = &[
 ];
 
 fn vectors_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../test-vector-data/vectors/harvest")
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../test-vector-data/vectors/harvest")
 }
 
 #[allow(clippy::chunks_exact_to_as_chunks)]

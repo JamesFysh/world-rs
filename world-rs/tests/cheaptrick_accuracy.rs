@@ -39,7 +39,7 @@ const TEST_NAMES: &[&str] = &[
 
 /// Root of the committed reference vectors (workspace `test-vector-data/`).
 fn vectors_dir() -> PathBuf {
-    manifest_dir().join("../../test-vector-data/vectors/cheaptrick")
+    manifest_dir().join("../test-vector-data/vectors/cheaptrick")
 }
 
 /// A reference case: the input signal, the F0 contour / temporal positions, and

@@ -25,7 +25,7 @@ const TEST_NAMES: &[&str] = &[
 
 /// Root of the committed reference vectors (workspace `test-vector-data/`).
 fn vectors_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../test-vector-data/vectors/dio")
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../test-vector-data/vectors/dio")
 }
 
 /// A reference case: the input signal plus the C++ `Dio()` F0 contour and

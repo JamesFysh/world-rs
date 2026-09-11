@@ -40,7 +40,7 @@ const TEST_NAMES: &[&str] = &[
 
 /// Root of the committed reference vectors (workspace `test-vector-data/`).
 fn vectors_dir() -> PathBuf {
-    manifest_dir().join("../../test-vector-data/vectors/resample")
+    manifest_dir().join("../test-vector-data/vectors/resample")
 }
 
 fn read_f32s(bytes: &[u8]) -> Vec<f32> {

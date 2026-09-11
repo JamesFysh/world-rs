@@ -37,7 +37,7 @@ const PI: f64 = std::f64::consts::PI;
 
 /// The committed 16 kHz sample audio (1 s, 220 Hz sine, 0.5 amplitude).
 fn sample_wav_path() -> PathBuf {
-    manifest_dir().join("../../test-vector-data/vectors/test_sine.wav")
+    manifest_dir().join("../test-vector-data/vectors/test_sine.wav")
 }
 
 // ---- Deterministic test signals (1 second at 16 kHz) ----

@@ -16,7 +16,7 @@ use common::{manifest_dir, psnr_2d};
 const TEST_NAMES: &[&str] = &["speech_clean", "speech_noise", "music_vocal"];
 
 fn vectors_dir() -> PathBuf {
-    manifest_dir().join("../../test-vector-data/vectors/d4c")
+    manifest_dir().join("../test-vector-data/vectors/d4c")
 }
 
 fn read_f64s(bytes: &[u8]) -> Vec<f64> {

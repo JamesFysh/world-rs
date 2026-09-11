@@ -12,7 +12,7 @@ pub fn manifest_dir() -> PathBuf {
 }
 
 pub fn workspace_dir() -> PathBuf {
-    manifest_dir().join("../..")
+    manifest_dir().join("..")
 }
 
 pub fn world_equivalence_dir() -> PathBuf {

@@ -12,7 +12,7 @@ use std::path::PathBuf;
 use world_rs::matlab::interp1q;
 
 fn vectors_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../test-vector-data/vectors/matlab")
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../test-vector-data/vectors/matlab")
 }
 
 fn read_f64s(bytes: &[u8]) -> Vec<f64> {
