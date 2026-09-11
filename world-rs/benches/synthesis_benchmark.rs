@@ -9,7 +9,7 @@ use criterion::{black_box, Criterion};
 use world_rs::synthesis::{get_y_length, synthesis};
 
 fn vectors_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../test-vector-data/vectors/synthesis")
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../test-vector-data/vectors/synthesis")
 }
 
 fn read_f64s(bytes: &[u8]) -> Vec<f64> {
@@ -64,6 +64,15 @@ fn load_synth(name: &str) -> SynthCase {
 }
 
 fn main() {
+    // Generated vectors are gitignored; skip (don't fail) when absent, e.g.
+    // on a fresh CI checkout that never ran the generator scripts.
+    if !vectors_dir().join("chirp_16k.in").exists() {
+        eprintln!(
+            "skipping synthesis benchmark: test-vector-data/vectors/synthesis/chirp_16k.in \
+             not found; run test-vector-data/generate-synthesis-vectors.sh to generate vectors"
+        );
+        return;
+    }
     let case = load_synth("chirp_16k");
 
     let mut criterion = Criterion::default();

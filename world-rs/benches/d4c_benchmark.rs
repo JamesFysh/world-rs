@@ -9,7 +9,7 @@ use criterion::{black_box, Criterion};
 use world_rs::d4c::{d4c, initialize_d4c_option};
 
 fn vectors_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../test-vector-data/vectors/d4c")
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../test-vector-data/vectors/d4c")
 }
 
 fn read_f64s(bytes: &[u8]) -> Vec<f64> {
@@ -64,6 +64,17 @@ fn load_d4c_input() -> D4cBenchInput {
 }
 
 fn main() {
+    // Generated vectors are gitignored; skip (don't fail) when absent, e.g.
+    // on a fresh CI checkout that never ran the generator scripts.
+    for name in ["speech_clean.in", "speech_clean.out"] {
+        if !vectors_dir().join(name).exists() {
+            eprintln!(
+                "skipping d4c benchmark: test-vector-data/vectors/d4c/{name} not found; \
+                 run test-vector-data/generate-d4c-vectors.sh to generate vectors"
+            );
+            return;
+        }
+    }
     let data = load_d4c_input();
     let option = initialize_d4c_option();
 

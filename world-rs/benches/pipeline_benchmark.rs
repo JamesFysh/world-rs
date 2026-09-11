@@ -61,7 +61,7 @@ const RESAMPLE_NAMES: &[&str] = &[
 ];
 
 fn vectors_dir(sub: &str) -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!("../../test-vector-data/vectors/{sub}"))
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!("../test-vector-data/vectors/{sub}"))
 }
 
 #[allow(clippy::chunks_exact_to_as_chunks)]
@@ -238,7 +238,33 @@ fn load_resample(name: &str) -> ResampleCase {
     ResampleCase { from, to, x }
 }
 
+/// Required vector files per subdir: (subdir, needs `.out` besides `.in`).
+/// Generated vectors are gitignored; the benchmark skips (doesn't fail) when
+/// any are absent, e.g. on a fresh CI checkout that never ran the generators.
+fn vectors_present() -> bool {
+    let cases: &[(&str, &[&str], bool)] = &[
+        ("dio", DIO_NAMES, true),
+        ("cheaptrick", CT_NAMES, true),
+        ("synthesis", SYNTH_NAMES, false),
+        ("resample", RESAMPLE_NAMES, true),
+    ];
+    cases
+        .iter()
+        .flat_map(|(sub, names, need_out)| names.iter().map(move |name| (*sub, *name, *need_out)))
+        .all(|(sub, name, need_out)| {
+            vectors_dir(sub).join(format!("{name}.in")).exists()
+                && (!need_out || vectors_dir(sub).join(format!("{name}.out")).exists())
+        })
+}
+
 fn main() {
+    if !vectors_present() {
+        eprintln!(
+            "skipping pipeline benchmark: some test-vector-data/vectors files not found; \
+             run the test-vector-data/generate-*-vectors.sh scripts to generate vectors"
+        );
+        return;
+    }
     let dio_option = initialize_dio_option();
 
     // Pre-warm the CPU to a steady (boosted) frequency with a short burst of

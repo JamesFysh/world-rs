@@ -35,7 +35,7 @@ const TEST_NAMES: &[&str] = &[
 ];
 
 fn vectors_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../test-vector-data/vectors/dio")
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../test-vector-data/vectors/dio")
 }
 
 /// Root of criterion's on-disk results for this benchmark.
@@ -242,12 +242,16 @@ fn write_report() {
     // Representative (median) processing time across signals, and the worst
     // single-signal value, for the real-time verdict.
     let times: Vec<f64> = rows.iter().filter_map(|r| r.processing_ms).collect();
-    let typical_ms = {
+    // No measurements on a fresh checkout (or in criterion `--test` mode,
+    // which runs without saving estimates): report NaN rather than panicking
+    // on the empty median index.
+    let (typical_ms, max_ms) = if times.is_empty() {
+        (f64::NAN, f64::NAN)
+    } else {
         let mut t = times.clone();
         t.sort_by(|a, b| a.partial_cmp(b).unwrap());
-        t[t.len() / 2]
+        (t[t.len() / 2], t.iter().cloned().fold(f64::MIN, f64::max))
     };
-    let max_ms = times.iter().cloned().fold(f64::MIN, f64::max);
     let realtime_ok = typical_ms < 10.0;
 
     let mut md = String::new();

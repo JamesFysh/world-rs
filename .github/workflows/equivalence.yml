@@ -118,7 +118,8 @@ jobs:
           cd ext_src/world-cpp/build
           cmake .. -DCMAKE_BUILD_TYPE=Release
           make -j$(nproc)
-          ls -lh libworld.a
+          # WORLD's CMake sets ARCHIVE_OUTPUT_DIRECTORY to <build>/lib.
+          ls -lh lib/libworld.a
 
   compare:
     name: Equivalence compare

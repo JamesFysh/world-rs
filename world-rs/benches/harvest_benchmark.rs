@@ -16,7 +16,7 @@ const N: usize = 16000;
 const PI: f64 = K_PI;
 
 fn vectors_dir() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../test-vector-data/vectors")
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../test-vector-data/vectors")
 }
 
 fn read_f64s(bytes: &[u8]) -> Vec<f64> {
@@ -73,6 +73,19 @@ fn load_dio_f0() -> (Vec<f64>, f64) {
 }
 
 fn main() {
+    // Generated vectors are gitignored; skip (don't fail) when absent, e.g.
+    // on a fresh CI checkout that never ran the generator scripts.
+    // (load_harvest_signal already falls back to a generated signal; the
+    // DIO speech/F0 loads below do not.)
+    for name in ["dio/speech.in", "dio/speech.out"] {
+        if !vectors_dir().join(name).exists() {
+            eprintln!(
+                "skipping harvest benchmark: test-vector-data/vectors/{name} not found; \
+                 run test-vector-data/generate-dio-vectors.sh to generate vectors"
+            );
+            return;
+        }
+    }
     let harvest_option = initialize_harvest_option();
     let dio_option = initialize_dio_option();
 
