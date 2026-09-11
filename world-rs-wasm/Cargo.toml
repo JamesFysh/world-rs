@@ -2,3 +2,28 @@
 name = "world-rs-wasm"
 version = "0.1.0"
 edition = "2021"
+description = "WASM bindings for WORLD"
+publish = false
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[lib]
+# `cdylib` produces the WASM artifact; `rlib` lets the integration tests under
+# `tests/` (run via `wasm-pack test`) link against the crate.
+crate-type = ["cdylib", "rlib"]
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ["-O3", "--enable-bulk-memory", "--enable-mutable-globals", "--enable-sign-ext", "--enable-nontrapping-float-to-int"]
+
+[dependencies]
+wasm-bindgen = "=0.2.128"
+js-sys = "0.3"
+console_error_panic_hook = "0.1"
+world-rs = { path = "../world-rs" }
+
+[dev-dependencies]
+# WASM-runtime test harness for the integration tests under `tests/`
+# (run with `wasm-pack test --node`).
+wasm-bindgen-test = "0.3"
