@@ -1,4 +1,4 @@
-//! Synthesis (port of `ext_src/world-cpp/src/synthesis.cpp`).
+//! Synthesis (port of https://github.com/mmorise/World/blob/master/src/synthesis.cpp).
 //!
 //! Reconstructs a waveform from an F0 contour, a CheapTrick spectral envelope
 //! (spectrogram), and an aperiodicity spectrogram.

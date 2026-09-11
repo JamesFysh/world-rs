@@ -14,7 +14,7 @@
 //! (16k↔48k sine/impulse/DC, JS-reference PSNR, bit-for-bit vs the JS polyphase
 //! reference, the 44.1k↔48k non-integer ratio, and the swept-sine aliasing
 //! check) is added in PHASE4-7/8 and lives in `resample_accuracy.rs` (reading
-//! the binary reference vectors generated from `ext_src/resample`).
+//! the binary reference vectors generated from https://github.com/audiojs/resample).
 
 use world_rs::resample::{resample, resample_polyphase, BETA, D, TAPS};
 

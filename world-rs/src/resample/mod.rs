@@ -1,6 +1,8 @@
 //! Polyphase sample-rate conversion (port of the `audiojs/resample`
-//! `@audio/resample-polyphase` atom, `ext_src/resample/`).
-//!
+//! `@audio/resample-polyphase` atom
+//! (https://github.com/audiojs/resample, vendored in vocoder at
+//! ext_src/resample/, not shipped here)).
+ //!
 //! Converts a mono PCM signal between two positive integer sample rates using
 //! a fixed 32-tap Kaiser-windowed (β = 8.6) polyphase FIR. The rational rate
 //! `to / from` is reduced by its gcd to `L / M`; a Kaiser-sinc prototype of
@@ -712,7 +714,7 @@ mod tests {
 
     /// Phase coefficients match the JS reference bit-for-bit for the 16k→48k
     /// (L=3, M=1) and 48k→16k (L=1, M=3) rate pairs (vectors generated from
-    /// the `polyphase.js` `design`, `ext_src/resample`).
+    /// the `polyphase.js` `design`, https://github.com/audiojs/resample).
     #[test]
     fn test_design_phases_match_js_reference_bits() {
         let up = design(3, 1);
@@ -1014,7 +1016,7 @@ mod tests {
     }
 
     /// 3× upsample (16k→48k) of a unit impulse at index 0 matches the JS
-    /// reference bit-for-bit (vectors from `polyphase.js`, `ext_src/resample`):
+    /// reference bit-for-bit (vectors from `polyphase.js`, https://github.com/audiojs/resample):
     /// the leading-edge-truncated impulse response, 48 non-zero samples then
     /// zeros.
     #[test]
@@ -1357,7 +1359,7 @@ mod tests {
 
     /// 3× downsample (48k→16k) of a unit impulse at index 0 (leading edge)
     /// matches the JS reference bit-for-bit (vectors from `polyphase.js`,
-    /// `ext_src/resample`): the leading-edge-truncated impulse response, 6
+    /// https://github.com/audiojs/resample): the leading-edge-truncated impulse response, 6
     /// non-zero samples then zeros. Each output `m` reads the single phase at
     /// tap `k = 3m + D`, so the response is the tail of the prototype.
     #[test]
@@ -1600,7 +1602,7 @@ mod tests {
     /// Sine waves at 100 Hz, 1 kHz, and 4 kHz (the passband, ≤ 4 kHz) are
     /// preserved at 16k→48k with amplitude error < 1% (RMS ≈ √½) and
     /// mid-section sample windows that match the JS reference bit-for-bit
-    /// (vectors from `polyphase.js`, `ext_src/resample`). The 1 kHz window is
+    /// (vectors from `polyphase.js`, https://github.com/audiojs/resample). The 1 kHz window is
     /// already pinned in PHASE4-4; here the 100 Hz and 4 kHz windows are added.
     #[test]
     fn test_16k_to_48k_sine_passband_preserved() {

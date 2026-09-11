@@ -1,5 +1,5 @@
 //! CheapTrick spectral envelope extraction (port of
-//! `ext_src/world-cpp/src/cheaptrick.cpp`).
+//! https://github.com/mmorise/World/blob/master/src/cheaptrick.cpp).
 //!
 //! Ported per the WORLD spec (`docs/impl/support/WORLD-spec.md`, §CheapTrick)
 //! and the locked pre-phase decisions (`docs/impl/support/WORLD-decisions.md`):
@@ -1996,7 +1996,7 @@ mod phase25_tests {
     use crate::matlab::randn_reseed;
 
     // C++ reference values (fs=16000, f0=200, q1=-0.15, fft_size=256),
-    // generated from ext_src/world-cpp via scratch/phase25_cpp_ref_256.cpp.
+    // generated from https://github.com/mmorise/World via scratch/phase25_cpp_ref_256.cpp.
     const PS_REF: [f64; 129] = [
         2805.5453637832188,
         750.93834560534935,

@@ -1,4 +1,4 @@
-//! DIO pitch extraction (port of `ext_src/world-cpp/src/dio.cpp`).
+//! DIO pitch extraction (port of https://github.com/mmorise/World/blob/master/src/dio.cpp).
 //!
 //! Phase 1-1: module scaffolding and type definitions.
 //! Phase 1-2: spectrum estimation and core helpers

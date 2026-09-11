@@ -307,7 +307,7 @@ mod tests {
     // C++ reference vectors.
     //
     // Reference values captured from the C++ StoneMask (mmorise/World) linked
-    // against ext_src/world-cpp/build/libworld.a via the driver
+    // against https://github.com/mmorise/World via the driver
     // /tmp/opencode/stonemask_vectors.cpp (see its header for the exact
     // compile/run commands). The driver prints refined_f0 at full f64
     // precision; the values below are hard-coded here. The Rust tests

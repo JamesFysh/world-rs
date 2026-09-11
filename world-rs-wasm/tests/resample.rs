@@ -5,7 +5,7 @@
 //! tests run in the real WASM runtime and exercise the exported `resample`
 //! function with small simulated inputs and inlined expected outputs. The
 //! inlined reference outputs are the exact `@audio/resample-polyphase`
-//! (`ext_src/resample`) results for the same inputs, so a correct port matches
+//! (https://github.com/audiojs/resample) results for the same inputs, so a correct port matches
 //! them to f32 precision.
 //
 // Test target: unwrap/panic in setup and assertions is expected; inlined

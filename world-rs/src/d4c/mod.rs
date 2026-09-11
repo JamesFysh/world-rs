@@ -1,4 +1,4 @@
-//! D4C aperiodicity extraction (port of `ext_src/world-cpp/src/d4c.cpp`).
+//! D4C aperiodicity extraction (port of https://github.com/mmorise/World/blob/master/src/d4c.cpp).
 //!
 //! Phase 1: module scaffolding and type definitions.
 //! Phase 2: option initialization & input validation.
