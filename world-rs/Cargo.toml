@@ -3,6 +3,9 @@ name = "world-rs"
 version = "0.1.0"
 edition = "2021"
 description = "WORLD algorithms"
+repository = "https://github.com/JamesFysh/world-rs"
+license = "BSD-3-Clause"
+readme = "../README.md"
 rust-version.workspace = true
 
 [lints]
