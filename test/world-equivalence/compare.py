@@ -329,6 +329,7 @@ def main():
     args = parser.parse_args()
 
     pairs = load_pairs(args.cpp, args.rs)
+    print(f'[compare] loaded {len(pairs)} cpp/rs pairs from {args.cpp} / {args.rs}')
     results, e2e_results, all_pass = compute_metrics(pairs)
     perceptual_results = []
     if args.perceptual:
@@ -336,6 +337,19 @@ def main():
         if args.strict_perceptual:
             all_pass = all_pass and perceptual_ok
     write_report(args.report, results, e2e_results, all_pass, perceptual_results if args.perceptual else None)
+    # Console summary: the full table lives in the report, but a bare
+    # nonzero exit is undiagnosable in CI logs — always list failures here.
+    n_fail = 0
+    for phase, fixture, metric, value, thr, status in results:
+        if status == '❌':
+            n_fail += 1
+            print(f'[compare] FAIL {phase}/{fixture} {metric}: value={value:.6g} gate={thr}')
+    for metric, value, thr, status in e2e_results:
+        if status == '❌':
+            n_fail += 1
+            print(f'[compare] FAIL end-to-end {metric}: value={value:.6g} gate={thr}')
+    print(f'[compare] {len(results) + len(e2e_results) - n_fail} passed, {n_fail} failed '
+          f'-> verdict {"PASS" if all_pass else "FAIL"} (report: {args.report})')
     sys.exit(0 if all_pass else 1)
 
 if __name__ == '__main__':
