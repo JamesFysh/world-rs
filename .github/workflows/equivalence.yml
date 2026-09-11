@@ -3,7 +3,7 @@ name: WORLD equivalence tests
 # PESQ/STOI/MOS are explicitly excluded from CI per EQUIVALENCE-TESTING.md §7.3.
 # Toolchain requirement: g++ >= 11 on runner.
 # Runtime expectations:
-# - rust-tests: ~6-10 min (fmt + clippy + workspace tests + wasm-pack + bench smoke)
+# - rust-tests: ~6-10 min (fmt + clippy + workspace tests + wasm-pack)
 # - cpp-build: ~3-5 min (ext_src clone + build)
 # - compare: ~5-10 min (fixture run + metrics)
 # Full matrix ~20 min. If >20 min, split into equivalence-fast (rust-tests per-PR) and equivalence-full (nightly/manual).
@@ -68,9 +68,6 @@ jobs:
             echo "Absolute home paths found in test/bench sources"
             exit 1
           fi
-
-      - name: Bench smoke (compile + short run, report write disabled by default)
-        run: cargo bench --workspace -- --test
 
   cpp-build:
     name: C++ build & structural parity

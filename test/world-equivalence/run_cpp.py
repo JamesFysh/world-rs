@@ -13,7 +13,12 @@ import soundfile as sf
 DRIVER_SRC = Path(__file__).parent / "cpp_driver.cpp"
 DRIVER_BIN = Path(__file__).parent / "cpp_driver"
 WORLD_SRC = Path(__file__).parent.parent.parent / "ext_src" / "world-cpp" / "src"
-WORLD_LIB = Path(__file__).parent.parent.parent / "ext_src" / "world-cpp" / "build" / "libworld.a"
+_WORLD_BUILD = Path(__file__).parent.parent.parent / "ext_src" / "world-cpp" / "build"
+# WORLD's CMake sets ARCHIVE_OUTPUT_DIRECTORY to <build>/lib; older layouts
+# left the archive at the build root — prefer the real location.
+WORLD_LIB = _WORLD_BUILD / "lib" / "libworld.a"
+if not WORLD_LIB.exists():
+    WORLD_LIB = _WORLD_BUILD / "libworld.a"
 
 PHASES = ["dio", "stonemask", "cheaptrick", "synthesis"]
 TIMEOUT = 30
