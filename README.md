@@ -1,31 +1,18 @@
 # world-rs
 
-Pure-Rust port of WORLD (+ polyphase resampler), single crate `world-rs`, unpublished `world-rs-wasm` workspace member.
-
-## What
-
-`world-rs` is a pure-Rust re-implementation of the WORLD vocoder algorithms with a polyphase resampler. The workspace contains:
-
-- `world-rs` — published crate with core WORLD analysis/synthesis and resampling
-- `world-rs-wasm` — unpublished wasm bindings, `publish = false`
+A pure-Rust port of the [WORLD](https://github.com/mmorise/World) speech vocoder — DIO, Harvest, StoneMask, CheapTrick, D4C and Synthesis — plus a polyphase resampler.
 
 ## Algorithms
 
-Ported algorithms:
-
-- DIO — pitch detection
-- Harvest — pitch detection (fully ported)
-- StoneMask — F0 refinement
-- CheapTrick — spectral envelope
-- D4C — aperiodicity (fully ported)
-- Synthesis — waveform synthesis
-- Resample — polyphase resampler
-
-D4C/Harvest are fully ported per locked decisions; no porting work remains.
+- [DIO](docs/DIO.md) — pitch detection
+- [Harvest](docs/HARVEST.md) — pitch detection
+- [StoneMask](docs/STONEMASK.md) — F0 refinement
+- [CheapTrick](docs/CHEAPTRICK.md) — spectral envelope
+- [D4C](docs/D4C.md) — aperiodicity
+- [Synthesis](docs/SYNTHESIS.md) — waveform synthesis
+- [Resample](docs/RESAMPLE.md) — polyphase resampler
 
 ## Usage
-
-Signatures verified live from `lib.rs` exports.
 
 ```rust
 use world_rs::dio::{dio, initialize_dio_option, DioOption};
@@ -84,8 +71,6 @@ Run the harness via the Python entry points in `test/world-equivalence/`.
 wasm-pack build world-rs-wasm --target web
 wasm-pack test --node world-rs-wasm
 ```
-
-`crate-type = ["cdylib","rlib"]` with `wasm-opt` release flags as per `Cargo.toml`.
 
 ## License
 
