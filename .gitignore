@@ -3,3 +3,8 @@ target/
 **/pkg/
 **/*.wasm
 scratch/
+
+ext_src/
+__pycache__/
+*.pyc
+test/world-equivalence/cpp_driver
