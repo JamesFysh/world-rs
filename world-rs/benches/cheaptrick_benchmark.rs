@@ -10,7 +10,7 @@
 //! The real-time requirement is RTF < 0.1 for 16 kHz audio, i.e. one second of
 //! audio must be processed in under 100 ms. After the criterion run, the
 //! harness (re)generates the summary report at
-//! `docs/impl/support/benchmarks/cheaptrick_benchmark_results.md`.
+//! `docs/benchmarks/cheaptrick_benchmark_results.md`.
 //
 // Benchmark target: unwrap/panic in setup is expected.
 #![allow(clippy::unwrap_used)]
@@ -213,7 +213,7 @@ fn write_report() {
 
     if std::env::var("WORLD_BENCH_REPORT").unwrap_or_default() == "1" {
         let out = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../docs/impl/support/benchmarks/cheaptrick_benchmark_results.md");
+            .join("../docs/benchmarks/cheaptrick_benchmark_results.md");
         if let Some(parent) = out.parent() {
             let _ = fs::create_dir_all(parent);
         }

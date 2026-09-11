@@ -1,0 +1,16 @@
+[project]
+name = "world-equivalence"
+version = "0.1.0"
+description = "WORLD-rs equivalence testing fixtures and harness"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "scipy",
+    "soundfile",
+]
+
+[project.optional-dependencies]
+local = [
+    "pesq==0.0.3",
+    "pystoi==0.4.4",
+]

@@ -8,7 +8,7 @@
 //! confirm the per-second processing time is consistent across input sizes.
 //!
 //! After the criterion run, the harness (re)generates the summary report at
-//! `docs/impl/support/benchmarks/resample_benchmark_results.md`.
+//! `docs/benchmarks/resample_benchmark_results.md`.
 
 // Benchmark target: unwrap/panic in setup is expected.
 #![allow(clippy::unwrap_used)]
@@ -234,7 +234,7 @@ fn write_report() {
 
     if std::env::var("WORLD_BENCH_REPORT").unwrap_or_default() == "1" {
         let out = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../docs/impl/support/benchmarks/resample_benchmark_results.md");
+            .join("../docs/benchmarks/resample_benchmark_results.md");
         if let Some(parent) = out.parent() {
             let _ = fs::create_dir_all(parent);
         }

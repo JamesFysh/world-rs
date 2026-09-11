@@ -4,7 +4,7 @@
 //! second of audio for each of the deterministic test signals (the same signals
 //! used by the accuracy tests). After the criterion run, the harness (re)generates
 //! the summary report at
-//! `docs/impl/support/benchmarks/dio_benchmark_results.md`, combining the
+//! `docs/benchmarks/dio_benchmark_results.md`, combining the
 //! criterion-measured processing time with the F0 RMSE and voicing accuracy
 //! computed against the C++ reference vectors.
 //!
@@ -328,7 +328,7 @@ fn write_report() {
 
     if std::env::var("WORLD_BENCH_REPORT").unwrap_or_default() == "1" {
         let out = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../docs/impl/support/benchmarks/dio_benchmark_results.md");
+            .join("../docs/benchmarks/dio_benchmark_results.md");
         if let Some(parent) = out.parent() {
             let _ = fs::create_dir_all(parent);
         }
