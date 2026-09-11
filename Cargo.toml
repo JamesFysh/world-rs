@@ -1,0 +1,32 @@
+[workspace]
+resolver = "2"
+members = ["world-rs", "world-rs-wasm"]
+
+[workspace.package]
+rust-version = "1.88"  # verified MSRV (see PHASE3-2 §0.6)
+
+[workspace.dependencies]
+rustfft = "6"
+realfft = "3"
+num-complex = "0.4"
+criterion = "0.5"
+serde_json = "1.0"
+proptest = "1"
+hound = "3.5"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+[workspace.lints.clippy]
+panic = "deny"
+unwrap_used = "deny"
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true
+[profile.profiling]
+inherits = "release"
+strip = false
+debug = true
+[profile.test]
+opt-level = 2
