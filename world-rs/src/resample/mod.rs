@@ -2,7 +2,7 @@
 //! `@audio/resample-polyphase` atom
 //! (https://github.com/audiojs/resample, vendored in vocoder at
 //! ext_src/resample/, not shipped here)).
- //!
+//!
 //! Converts a mono PCM signal between two positive integer sample rates using
 //! a fixed 32-tap Kaiser-windowed (β = 8.6) polyphase FIR. The rational rate
 //! `to / from` is reduced by its gcd to `L / M`; a Kaiser-sinc prototype of
