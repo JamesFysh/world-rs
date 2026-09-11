@@ -1,6 +1,6 @@
 //! WASM bindings for StoneMask F0 refinement (Phase 5-4).
 //!
-//! Wraps `world_rs_core::stonemask` for JavaScript. Per the locked precision
+//! Wraps `world_rs::stonemask` for JavaScript. Per the locked precision
 //! contract (`WORLD-decisions.md`), the WORLD core APIs cross the WASM boundary
 //! as `Float64Array` (f64); only Resample I/O uses `Float32Array` (f32).
 //!

@@ -1,6 +1,6 @@
 //! WASM bindings for CheapTrick spectral envelope extraction (Phase 5-3).
 //!
-//! Wraps `world_rs_core::cheaptrick` for JavaScript. Per the locked precision
+//! Wraps `world_rs::cheaptrick` for JavaScript. Per the locked precision
 //! contract (`WORLD-decisions.md`), the WORLD core APIs cross the WASM boundary
 //! as `Float64Array` (f64); only Resample I/O uses `Float32Array` (f32).
 //!
@@ -17,7 +17,7 @@ use world_rs::cheaptrick as core_cheaptrick;
 use world_rs::cheaptrick::CheapTrickOption as CoreCheapTrickOption;
 
 /// WASM-facing CheapTrick options, mirroring
-/// `world_rs_core::cheaptrick::CheapTrickOption` (C++ `CheapTrickOption`,
+/// `world_rs::cheaptrick::CheapTrickOption` (C++ `CheapTrickOption`,
 /// `world/cheaptrick.h:16-20`).
 #[wasm_bindgen]
 pub struct CheapTrickOption {
@@ -71,7 +71,7 @@ impl CheapTrickOption {
 }
 
 /// Default CheapTrick options matching the C++ reference
-/// (`world_rs_core::cheaptrick::initialize_cheaptrick_option`).
+/// (`world_rs::cheaptrick::initialize_cheaptrick_option`).
 fn default_option(fs: f64) -> CheapTrickOption {
     let core = core_cheaptrick::initialize_cheaptrick_option(fs);
     CheapTrickOption {
@@ -82,7 +82,7 @@ fn default_option(fs: f64) -> CheapTrickOption {
 }
 
 /// Convert a WASM [`CheapTrickOption`] into the core [`CoreCheapTrickOption`]
-/// consumed by `world_rs_core::cheaptrick::cheaptrick`.
+/// consumed by `world_rs::cheaptrick::cheaptrick`.
 fn to_core_option(option: &CheapTrickOption) -> CoreCheapTrickOption {
     CoreCheapTrickOption {
         q1: option.q1,
@@ -108,7 +108,7 @@ fn to_core_option(option: &CheapTrickOption) -> CoreCheapTrickOption {
 ///
 /// Returns a JS exception (a `JsValue` string) when the input is invalid
 /// (empty signal, non-positive sample rate, or a `f0`/`temporal_positions`
-/// length mismatch), mirroring `world_rs_core::cheaptrick::CheapTrickError`.
+/// length mismatch), mirroring `world_rs::cheaptrick::CheapTrickError`.
 #[wasm_bindgen(skip_jsdoc)]
 pub fn cheaptrick(
     x: Float64Array,
@@ -130,7 +130,7 @@ pub fn cheaptrick(
 }
 
 /// Returns the default CheapTrick options
-/// (`world_rs_core::cheaptrick::initialize_cheaptrick_option`).
+/// (`world_rs::cheaptrick::initialize_cheaptrick_option`).
 ///
 /// JS signature: `initialize_cheaptrick_option(fs: number) => CheapTrickOption`.
 #[wasm_bindgen(skip_jsdoc)]

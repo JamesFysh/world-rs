@@ -1,6 +1,6 @@
 //! WASM bindings for Harvest F0 extraction.
 //!
-//! Wraps `world_rs_core::harvest` for JavaScript. Per the locked precision
+//! Wraps `world_rs::harvest` for JavaScript. Per the locked precision
 //! contract (`WORLD-decisions.md`), the WORLD core APIs cross the WASM boundary
 //! as `Float64Array` (f64).
 //!
@@ -16,7 +16,7 @@ use js_sys::Float64Array;
 use world_rs::harvest as core_harvest;
 use world_rs::harvest::HarvestOption as CoreHarvestOption;
 
-/// WASM-facing Harvest options, mirroring `world_rs_core::harvest::HarvestOption`.
+/// WASM-facing Harvest options, mirroring `world_rs::harvest::HarvestOption`.
 #[wasm_bindgen]
 pub struct HarvestOption {
     f0_floor: f64,
@@ -60,7 +60,7 @@ impl HarvestOption {
     }
 }
 
-/// WASM-facing Harvest result, mirroring `world_rs_core::harvest::HarvestResult`.
+/// WASM-facing Harvest result, mirroring `world_rs::harvest::HarvestResult`.
 #[wasm_bindgen]
 pub struct HarvestResult {
     f0: Float64Array,
@@ -80,7 +80,7 @@ impl HarvestResult {
 }
 
 /// Returns the default Harvest options
-/// (`world_rs_core::harvest::initialize_harvest_option`).
+/// (`world_rs::harvest::initialize_harvest_option`).
 #[wasm_bindgen]
 pub fn initialize_harvest_option() -> HarvestOption {
     let o = core_harvest::initialize_harvest_option();
@@ -99,7 +99,7 @@ pub fn initialize_harvest_option() -> HarvestOption {
 /// # Errors
 ///
 /// Returns a JS exception (a `JsValue` string) when the input is invalid,
-/// mirroring `world_rs_core::harvest::HarvestError`.
+/// mirroring `world_rs::harvest::HarvestError`.
 #[wasm_bindgen]
 pub fn harvest(x: Float64Array, fs: f64, option: &HarvestOption) -> Result<HarvestResult, JsValue> {
     let slice: Vec<f64> = x.to_vec();

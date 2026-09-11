@@ -1,6 +1,6 @@
 //! WASM bindings for DIO pitch extraction (Phase 5-2).
 //!
-//! Wraps `world_rs_core::dio` for JavaScript. Per the locked precision
+//! Wraps `world_rs::dio` for JavaScript. Per the locked precision
 //! contract (`WORLD-decisions.md`), the WORLD core APIs cross the WASM boundary
 //! as `Float64Array` (f64); only Resample I/O uses `Float32Array` (f32).
 //!
@@ -17,7 +17,7 @@ use js_sys::Float64Array;
 use world_rs::dio as core_dio;
 use world_rs::dio::DioOption as CoreDioOption;
 
-/// WASM-facing DIO options, mirroring `world_rs_core::dio::DioOption`
+/// WASM-facing DIO options, mirroring `world_rs::dio::DioOption`
 /// (C++ `DioOption`, `world/dio.h:16-23`).
 #[wasm_bindgen]
 pub struct DioOption {
@@ -111,7 +111,7 @@ impl DioOption {
 }
 
 /// Default DIO options matching the C++ reference
-/// (`world_rs_core::dio::initialize_dio_option`).
+/// (`world_rs::dio::initialize_dio_option`).
 fn default_option() -> DioOption {
     let core = core_dio::initialize_dio_option();
     DioOption {
@@ -125,7 +125,7 @@ fn default_option() -> DioOption {
 }
 
 /// Convert a WASM [`DioOption`] into the core [`CoreDioOption`] consumed by
-/// `world_rs_core::dio::dio`.
+/// `world_rs::dio::dio`.
 fn to_core_option(option: &DioOption) -> CoreDioOption {
     CoreDioOption {
         f0_floor: option.f0_floor,
@@ -137,7 +137,7 @@ fn to_core_option(option: &DioOption) -> CoreDioOption {
     }
 }
 
-/// WASM-facing DIO result, mirroring `world_rs_core::dio::DioResult`.
+/// WASM-facing DIO result, mirroring `world_rs::dio::DioResult`.
 ///
 /// `f0` encodes voiced/unvoiced per the WORLD convention: `0.0` marks an
 /// unvoiced frame, any positive value is the F0 in Hz.
@@ -219,7 +219,7 @@ fn to_wasm_result(result: core_dio::DioResult) -> DioResult {
 ///
 /// Returns a JS exception (a `JsValue` string) when the input is invalid
 /// (empty signal, non-positive sample rate, or non-positive frame period),
-/// mirroring `world_rs_core::dio::DioError`.
+/// mirroring `world_rs::dio::DioError`.
 #[wasm_bindgen(skip_jsdoc)]
 pub fn dio(x: Float64Array, fs: f64, option: &DioOption) -> Result<DioResult, JsValue> {
     let x: Vec<f64> = x.to_vec();
@@ -229,7 +229,7 @@ pub fn dio(x: Float64Array, fs: f64, option: &DioOption) -> Result<DioResult, Js
         .map_err(|e| JsValue::from_str(&e.to_string()))
 }
 
-/// Returns the default DIO options (`world_rs_core::dio::initialize_dio_option`).
+/// Returns the default DIO options (`world_rs::dio::initialize_dio_option`).
 ///
 /// JS signature: `initialize_dio_option() => DioOption`.
 #[wasm_bindgen(skip_jsdoc)]
