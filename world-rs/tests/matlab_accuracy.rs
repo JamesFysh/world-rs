@@ -9,7 +9,7 @@
 use std::fs;
 use std::path::PathBuf;
 
-use world_rs_core::matlab::interp1q;
+use world_rs::matlab::interp1q;
 
 fn vectors_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../test-vector-data/vectors/matlab")

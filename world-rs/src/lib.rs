@@ -7,4 +7,6 @@ pub mod dio;
 pub mod fft;
 pub mod harvest;
 pub mod matlab;
+pub mod resample;
 pub mod stonemask;
+pub mod synthesis;

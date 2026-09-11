@@ -13,8 +13,8 @@
 //! Run with:
 //!   cargo run -p world-rs-core --example cheaptrick_dio
 
-use world_rs_core::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
-use world_rs_core::dio::{dio, initialize_dio_option};
+use world_rs::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
+use world_rs::dio::{dio, initialize_dio_option};
 
 const FS: f64 = 16000.0;
 const N: usize = 16000; // 1 second at 16 kHz

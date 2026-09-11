@@ -2,3 +2,51 @@
 name = "world-rs"
 version = "0.1.0"
 edition = "2021"
+description = "WORLD algorithms"
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+rustfft.workspace = true
+realfft.workspace = true
+num-complex.workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+serde_json.workspace = true
+hound.workspace = true
+proptest.workspace = true
+
+[[bench]]
+name = "dio_benchmark"
+harness = false
+
+[[bench]]
+name = "cheaptrick_benchmark"
+harness = false
+
+[[bench]]
+name = "common_benchmark"
+harness = false
+
+[[bench]]
+name = "harvest_benchmark"
+harness = false
+
+[[bench]]
+name = "d4c_benchmark"
+harness = false
+
+[[bench]]
+name = "resample_benchmark"
+harness = false
+
+[[bench]]
+name = "pipeline_benchmark"
+harness = false
+
+[[bench]]
+name = "synthesis_benchmark"
+harness = false

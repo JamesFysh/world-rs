@@ -7,7 +7,7 @@
 use std::time::Duration;
 
 use criterion::{black_box, BatchSize, Criterion};
-use world_rs_core::common::{
+use world_rs::common::{
     dc_correction_into, dc_correction_scratch_capacity, get_suitable_fft_size,
     linear_smoothing_into, linear_smoothing_scratch_capacity, nuttall_window,
 };

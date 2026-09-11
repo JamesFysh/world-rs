@@ -20,11 +20,11 @@ use std::path::PathBuf;
 use std::time::Duration;
 
 use criterion::{black_box, BenchmarkId, Criterion};
+use world_rs::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
+use world_rs::dio::{dio, initialize_dio_option};
 use world_rs::resample::resample;
+use world_rs::stonemask::stone_mask;
 use world_rs::synthesis::{get_y_length, synthesis};
-use world_rs_core::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
-use world_rs_core::dio::{dio, initialize_dio_option};
-use world_rs_core::stonemask::stone_mask;
 
 /// DIO vectors (also used as the input contour for `stone_mask`).
 const DIO_NAMES: &[&str] = &[

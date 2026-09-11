@@ -12,9 +12,9 @@
 //! [`constant_aperiodicity`] while D4C is deferred):
 //!
 //! ```no_run
-//! use world_rs_core::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
-//! use world_rs_core::dio::{dio, initialize_dio_option};
-//! use world_rs_core::stonemask::stone_mask;
+//! use world_rs::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
+//! use world_rs::dio::{dio, initialize_dio_option};
+//! use world_rs::stonemask::stone_mask;
 //! use world_rs::synthesis::{constant_aperiodicity, get_y_length, synthesis};
 //!
 //! let fs = 16000.0;
@@ -70,17 +70,17 @@
 //! xorshift PRNG, `fftshift`, `get_safe_aperiodicity`, and the `FftComplex`
 //! type) are imported here.
 
+use crate::common::get_safe_aperiodicity;
+use crate::constants::{K_DEFAULT_F0, K_MY_SAFE_GUARD_MINIMUM, K_PI};
+use crate::matlab::{fftshift, histc, randn, randn_reseed, RandnState};
 use realfft::{ComplexToReal, RealFftPlanner, RealToComplex};
 use rustfft::{num_complex::Complex, Fft, FftPlanner};
 use std::sync::Arc;
-use world_rs_core::common::get_safe_aperiodicity;
-use world_rs_core::constants::{K_DEFAULT_F0, K_MY_SAFE_GUARD_MINIMUM, K_PI};
-use world_rs_core::matlab::{fftshift, histc, randn, randn_reseed, RandnState};
 
 /// C++: `typedef double fft_complex[2]` (world/fft.h:22). Index `0` is the real
 /// part, index `1` the imaginary part. FFI-compatible with the C++ layout;
 /// re-exported from `world-rs-core` so there is a single definition.
-pub use world_rs_core::fft::FftComplex;
+pub use crate::fft::FftComplex;
 
 /// C++: `const double *f0` — F0 contour in Hz; `0.0` marks unvoiced frames.
 pub type F0Contour = [f64];

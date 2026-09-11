@@ -22,11 +22,11 @@ use std::time::Instant;
 
 use realfft::RealFftPlanner;
 use rustfft::num_complex::Complex;
+use world_rs::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
+use world_rs::dio::{dio, initialize_dio_option};
 use world_rs::resample::resample;
+use world_rs::stonemask::stone_mask;
 use world_rs::synthesis::{constant_aperiodicity, get_y_length, synthesis};
-use world_rs_core::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
-use world_rs_core::dio::{dio, initialize_dio_option};
-use world_rs_core::stonemask::stone_mask;
 
 mod common;
 use common::{manifest_dir, psnr, psnr_end_to_end, read_wav_16k_mono, rmse};

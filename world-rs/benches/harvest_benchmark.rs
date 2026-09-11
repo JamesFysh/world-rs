@@ -6,10 +6,10 @@ use std::path::PathBuf;
 use std::time::Duration;
 
 use criterion::{black_box, BenchmarkId, Criterion};
-use world_rs_core::constants::K_PI;
-use world_rs_core::dio::{dio, initialize_dio_option};
-use world_rs_core::harvest::{harvest, initialize_harvest_option};
-use world_rs_core::stonemask::stone_mask;
+use world_rs::constants::K_PI;
+use world_rs::dio::{dio, initialize_dio_option};
+use world_rs::harvest::{harvest, initialize_harvest_option};
+use world_rs::stonemask::stone_mask;
 
 const FS: f64 = 16000.0;
 const N: usize = 16000;

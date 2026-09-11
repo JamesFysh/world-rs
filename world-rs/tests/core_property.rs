@@ -1,8 +1,8 @@
 use proptest::prelude::*;
-use world_rs_core::cheaptrick::{cheaptrick, initialize_cheaptrick_option, CheapTrickOption};
-use world_rs_core::d4c::{d4c, initialize_d4c_option, D4COption};
-use world_rs_core::dio::{dio, DioOption, DioResult};
-use world_rs_core::stonemask::stone_mask;
+use world_rs::cheaptrick::{cheaptrick, initialize_cheaptrick_option, CheapTrickOption};
+use world_rs::d4c::{d4c, initialize_d4c_option, D4COption};
+use world_rs::dio::{dio, DioOption, DioResult};
+use world_rs::stonemask::stone_mask;
 
 fn finite_f64_strategy() -> impl Strategy<Value = f64> {
     0.01f64..1.0f64

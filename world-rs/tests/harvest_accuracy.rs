@@ -4,7 +4,7 @@
 
 use std::fs;
 use std::path::PathBuf;
-use world_rs_core::harvest::{harvest, initialize_harvest_option};
+use world_rs::harvest::{harvest, initialize_harvest_option};
 
 const TEST_NAMES: &[&str] = &[
     "harm_100",

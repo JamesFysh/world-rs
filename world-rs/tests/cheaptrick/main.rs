@@ -1,7 +1,7 @@
 //! CheapTrick module integration tests (Phase 2-1: scaffolding & type
 //! definitions).
 
-use world_rs_core::cheaptrick::{
+use world_rs::cheaptrick::{
     get_f0_floor_for_cheaptrick, get_fft_size_for_cheaptrick, initialize_cheaptrick_option,
     CheapTrickOption,
 };

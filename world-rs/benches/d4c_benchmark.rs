@@ -6,7 +6,7 @@ use std::path::PathBuf;
 use std::time::Duration;
 
 use criterion::{black_box, Criterion};
-use world_rs_core::d4c::{d4c, initialize_d4c_option};
+use world_rs::d4c::{d4c, initialize_d4c_option};
 
 fn vectors_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../test-vector-data/vectors/d4c")

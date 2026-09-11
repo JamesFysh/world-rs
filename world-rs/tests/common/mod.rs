@@ -140,3 +140,22 @@ pub fn max_abs(a: &[f64], b: &[f64]) -> f64 {
         .map(|(x, y)| (x - y).abs())
         .fold(0.0, f64::max)
 }
+
+pub fn psnr_2d(rust: &[Vec<f64>], reference: &[Vec<f64>]) -> f64 {
+    assert_eq!(rust.len(), reference.len(), "frame count mismatch");
+    let mut se = 0.0f64;
+    let mut n = 0usize;
+    for (r, ref_row) in rust.iter().zip(reference) {
+        assert_eq!(r.len(), ref_row.len(), "bin count mismatch");
+        for (a, b) in r.iter().zip(ref_row) {
+            let d = a - b;
+            se += d * d;
+            n += 1;
+        }
+    }
+    let mse = se / n as f64;
+    if mse == 0.0 {
+        return f64::INFINITY;
+    }
+    (PSNR_MAX * PSNR_MAX / mse).log10() * 10.0
+}

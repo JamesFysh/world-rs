@@ -23,7 +23,7 @@
 use std::fs;
 use std::path::PathBuf;
 
-use world_rs_core::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
+use world_rs::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
 
 mod common;
 use common::{manifest_dir, psnr_2d};

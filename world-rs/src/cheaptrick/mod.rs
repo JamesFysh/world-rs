@@ -464,8 +464,8 @@ pub(crate) fn cheaptrick_general_body(
 /// grid it is aligned to, and both are consumed here directly.
 ///
 /// ```
-/// use world_rs_core::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
-/// use world_rs_core::dio::{dio, initialize_dio_option};
+/// use world_rs::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
+/// use world_rs::dio::{dio, initialize_dio_option};
 ///
 /// let fs = 16000.0;
 /// let n = 16000; // 1 second at 16 kHz

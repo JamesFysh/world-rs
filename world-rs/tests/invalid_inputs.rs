@@ -2,11 +2,11 @@
 #![allow(clippy::unwrap_used)]
 #![allow(clippy::panic)]
 
-use world_rs_core::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
-use world_rs_core::d4c::{d4c, initialize_d4c_option};
-use world_rs_core::dio::{dio, initialize_dio_option};
-use world_rs_core::harvest::{harvest, initialize_harvest_option};
-use world_rs_core::stonemask::stone_mask;
+use world_rs::cheaptrick::{cheaptrick, initialize_cheaptrick_option};
+use world_rs::d4c::{d4c, initialize_d4c_option};
+use world_rs::dio::{dio, initialize_dio_option};
+use world_rs::harvest::{harvest, initialize_harvest_option};
+use world_rs::stonemask::stone_mask;
 
 #[test]
 fn dio_f0_floor_too_low_no_panic() {
@@ -111,7 +111,7 @@ fn dio_degenerate_frame_period_rejected_before_alloc() {
     opt.frame_period = 1e-12;
     let res = dio(&x, 16000.0, &opt);
     assert!(
-        matches!(res, Err(world_rs_core::dio::DioError::TooManyFrames { .. })),
+        matches!(res, Err(world_rs::dio::DioError::TooManyFrames { .. })),
         "dio should reject degenerate frame plan, got {res:?}"
     );
 }
@@ -125,7 +125,7 @@ fn harvest_degenerate_frame_period_rejected_before_alloc() {
     assert!(
         matches!(
             res,
-            Err(world_rs_core::harvest::HarvestError::TooManyFrames { .. })
+            Err(world_rs::harvest::HarvestError::TooManyFrames { .. })
         ),
         "harvest should reject degenerate frame plan, got {res:?}"
     );
@@ -175,7 +175,7 @@ fn stonemask_degenerate_fs_f0_ratio_returns_unvoiced() {
     // plus a 2^28 FFT per frame. Must return 0.0 (unvoiced) without a
     // multi-GB attempt.
     let x = vec![0.0; 256];
-    let res = world_rs_core::stonemask::stone_mask(&x, x.len(), 1e9, &[0.0], &[40.0], 1);
+    let res = world_rs::stonemask::stone_mask(&x, x.len(), 1e9, &[0.0], &[40.0], 1);
     let refined = res.expect("stonemask should not error on degenerate ratio");
     assert_eq!(
         refined,
@@ -190,7 +190,7 @@ fn dc_correction_huge_f0_clamped_to_nyquist() {
     // to `usize::MAX` and sized the fallback buffer accordingly.
     let input = vec![1.0; 513];
     let mut output = vec![0.0; 513];
-    world_rs_core::common::dc_correction(&input, 1e308, 16000, 1024, &mut output);
+    world_rs::common::dc_correction(&input, 1e308, 16000, 1024, &mut output);
     assert!(output.iter().all(|v| v.is_finite()));
 }
 
@@ -198,7 +198,7 @@ fn dc_correction_huge_f0_clamped_to_nyquist() {
 fn linear_smoothing_huge_width_clamped_to_nyquist() {
     let input = vec![1.0; 513];
     let mut output = vec![0.0; 513];
-    world_rs_core::common::linear_smoothing(&input, 1e308, 16000, 1024, &mut output);
+    world_rs::common::linear_smoothing(&input, 1e308, 16000, 1024, &mut output);
     assert!(output.iter().all(|v| v.is_finite()));
 }
 

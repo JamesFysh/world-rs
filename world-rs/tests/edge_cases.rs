@@ -2,9 +2,9 @@
 #![allow(clippy::unwrap_used)]
 #![allow(clippy::panic)]
 
-use world_rs_core::d4c::{d4c, initialize_d4c_option};
-use world_rs_core::dio::{dio, initialize_dio_option, DioError, DioOption};
-use world_rs_core::harvest::{harvest, initialize_harvest_option, HarvestError};
+use world_rs::d4c::{d4c, initialize_d4c_option};
+use world_rs::dio::{dio, initialize_dio_option, DioError, DioOption};
+use world_rs::harvest::{harvest, initialize_harvest_option, HarvestError};
 
 fn default_option() -> DioOption {
     initialize_dio_option()

@@ -1,6 +1,6 @@
 //! DIO module integration tests (Phase 1-1: scaffolding & type definitions).
 
-use world_rs_core::dio::{dio, get_samples_for_dio, initialize_dio_option, DioError, DioOption};
+use world_rs::dio::{dio, get_samples_for_dio, initialize_dio_option, DioError, DioOption};
 
 #[test]
 fn dio_option_defaults_match_cpp_reference() {

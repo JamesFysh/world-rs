@@ -2,16 +2,16 @@
 #![allow(clippy::unwrap_used)]
 #![allow(clippy::panic)]
 
-use world_rs_core::cheaptrick::{
+use world_rs::cheaptrick::{
     cheaptrick, get_fft_size_for_cheaptrick, initialize_cheaptrick_option, CheapTrickOption,
 };
-use world_rs_core::constants::{K_CEIL_F0, K_FLOOR_F0};
-use world_rs_core::d4c::{d4c, initialize_d4c_option, D4CError, D4COption};
-use world_rs_core::dio::{dio, initialize_dio_option, DioError, DioOption, DioResult};
-use world_rs_core::harvest::{
+use world_rs::constants::{K_CEIL_F0, K_FLOOR_F0};
+use world_rs::d4c::{d4c, initialize_d4c_option, D4CError, D4COption};
+use world_rs::dio::{dio, initialize_dio_option, DioError, DioOption, DioResult};
+use world_rs::harvest::{
     harvest, initialize_harvest_option, HarvestError, HarvestOption, HarvestResult,
 };
-use world_rs_core::stonemask::{stone_mask, StoneMaskError};
+use world_rs::stonemask::{stone_mask, StoneMaskError};
 
 #[test]
 fn test_dio_defaults() {
@@ -72,7 +72,7 @@ fn test_api_surface() {
             &[f64],
             &[f64],
             &CheapTrickOption,
-        ) -> Result<Vec<Vec<f64>>, world_rs_core::cheaptrick::CheapTrickError>,
+        ) -> Result<Vec<Vec<f64>>, world_rs::cheaptrick::CheapTrickError>,
     ) {
     }
     fn _assert_stone_mask_api(

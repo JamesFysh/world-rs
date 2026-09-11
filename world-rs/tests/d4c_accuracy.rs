@@ -8,7 +8,7 @@
 use std::fs;
 use std::path::PathBuf;
 
-use world_rs_core::d4c::{d4c, initialize_d4c_option, D4CError, D4COption};
+use world_rs::d4c::{d4c, initialize_d4c_option, D4CError, D4COption};
 
 mod common;
 use common::{manifest_dir, psnr_2d};

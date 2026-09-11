@@ -13,8 +13,8 @@
 use std::fs;
 use std::path::PathBuf;
 
-use world_rs_core::constants::K_CEIL_F0;
-use world_rs_core::dio::{dio, initialize_dio_option};
+use world_rs::constants::K_CEIL_F0;
+use world_rs::dio::{dio, initialize_dio_option};
 
 /// The eight deterministic test signals (see `dio_reference.cpp`): pure sines
 /// at 71/200/500/800 Hz, a linear chirp, a voiced speech-like signal, unvoiced
