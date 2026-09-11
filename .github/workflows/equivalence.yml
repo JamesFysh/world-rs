@@ -1,0 +1,192 @@
+name: WORLD equivalence tests
+
+# PESQ/STOI/MOS are explicitly excluded from CI per EQUIVALENCE-TESTING.md §7.3.
+# Toolchain requirement: g++ >= 11 on runner.
+# Runtime expectations:
+# - rust-tests: ~6-10 min (fmt + clippy + workspace tests + wasm-pack + bench smoke)
+# - cpp-build: ~3-5 min (ext_src clone + build)
+# - compare: ~5-10 min (fixture run + metrics)
+# Full matrix ~20 min. If >20 min, split into equivalence-fast (rust-tests per-PR) and equivalence-full (nightly/manual).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  rust-tests:
+    name: Rust tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+          targets: wasm32-unknown-unknown
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Check formatting
+        run: cargo fmt --check
+
+      - name: Clippy (workspace, all targets, deny warnings)
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Run workspace tests
+        run: cargo test --workspace
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Run wasm tests (node)
+        run: wasm-pack test --node world-rs-wasm
+
+      - name: WASM glue drift check
+        run: |
+          wasm-pack build world-rs-wasm --target bundler --release --out-dir /tmp/pkg-check
+          if ! grep -q 'wasm-bindgen = "=0.2.128"' world-rs-wasm/Cargo.toml; then
+            echo "wasm-bindgen not pinned to =0.2.128"
+            exit 1
+          fi
+          echo "wasm-bindgen pinned and build succeeded"
+
+      - name: Path guard (no absolute home paths in test/bench sources)
+        run: |
+          if rg -n "/home/|/Users/" world-rs/tests world-rs-wasm/tests world-rs/benches; then
+            echo "Absolute home paths found in test/bench sources"
+            exit 1
+          fi
+
+      - name: Bench smoke (compile + short run, report write disabled by default)
+        run: cargo bench --workspace -- --test
+
+  cpp-build:
+    name: C++ build & structural parity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ make cmake git
+          g++ --version
+          test $(g++ -dumpversion | cut -d. -f1) -ge 11
+
+      - name: Recreate ext_src/world-cpp
+        run: |
+          mkdir -p ext_src
+          cd ext_src
+          git clone https://github.com/mmorise/World.git world-cpp
+          cd world-cpp
+          git checkout d625e7608ca23a870018f01e7c562ac683d9847f
+          git rev-parse HEAD
+
+      - name: Negative-facts structural parity check
+        run: |
+          # Vendored headers must NOT contain SynthesisOption/Natural/filter symbols
+          if grep -r "SynthesisOption" ext_src/world-cpp/src/world/; then
+            echo "Unexpected SynthesisOption found in vendored headers"
+            exit 1
+          fi
+          if grep -r "class Natural" ext_src/world-cpp/src/world/; then
+            echo "Unexpected Natural class found"
+            exit 1
+          fi
+          if grep -r "filter" ext_src/world-cpp/src/world/*.h | grep -i "SynthesisOption\|Natural"; then
+            echo "Unexpected filter symbols found"
+            exit 1
+          fi
+          echo "Negative-facts check passed"
+
+      - name: Build world-cpp library
+        run: |
+          mkdir -p ext_src/world-cpp/build
+          cd ext_src/world-cpp/build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          make -j$(nproc)
+          ls -lh libworld.a
+
+  compare:
+    name: Equivalence compare
+    needs: [rust-tests, cpp-build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ make cmake git
+          g++ --version
+          test $(g++ -dumpversion | cut -d. -f1) -ge 11
+
+      - name: Recreate ext_src/world-cpp (pinned)
+        run: |
+          mkdir -p ext_src
+          cd ext_src
+          git clone https://github.com/mmorise/World.git world-cpp
+          cd world-cpp
+          git checkout d625e7608ca23a870018f01e7c562ac683d9847f
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps (CI only)
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy soundfile
+
+      - name: Build world-cpp library
+        run: |
+          mkdir -p ext_src/world-cpp/build
+          cd ext_src/world-cpp/build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          make -j$(nproc)
+
+      - name: Build Rust equiv_dump example
+        run: cargo build --release -p world-rs --example equiv_dump
+
+      - name: Run C++ reference
+        run: |
+          mkdir -p results-cpp results-rs
+          python test/world-equivalence/run_cpp.py --fixtures test/world-equivalence/fixtures --output results-cpp
+
+      - name: Run world-rs reference
+        run: |
+          python test/world-equivalence/run_rs.py --fixtures test/world-equivalence/fixtures --output results-rs
+
+      - name: Compare metrics
+        run: |
+          python test/world-equivalence/compare.py --cpp results-cpp --rs results-rs --report equivalence-report.md
+
+      - name: Upload equivalence report
+        uses: actions/upload-artifact@v4
+        with:
+          name: equivalence-report
+          path: equivalence-report.md
+          retention-days: 30
+
+      - name: Fail on non-zero exit
+        run: |
+          if [ ! -f equivalence-report.md ]; then
+            echo "Report missing"
+            exit 1
+          fi
+          echo "Report generated"
